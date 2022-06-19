@@ -1,105 +1,126 @@
-const request: any = {}
+/* eslint-disable no-underscore-dangle */
+import dotenv from 'dotenv';
+import supertest from 'supertest';
+import { app } from '../app';
 
-describe('Handle Users', () => {
-  it('you must register a user', async () => {
-    const response = await request.post('/user')
-      .send({
-        code: '765',
-        username: 'code test',
-        password: 'code test'
-      });
+const connection: any = null;
+
+dotenv.config();
+
+const request = supertest(app);
+
+let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
+let codeGenerate = 'código enviado pelos devs';
+let codeGenerate2 = 'código enviado pelos devs';
+
+let newUser = {
+  code: 'código enviado pelos devs',
+  username: 'lucia santos teste',
+  password: '1234abc',
+};
+
+afterAll(async () => {
+  await connection.connection.close();
+});
+
+beforeAll(async () => {
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+
+  codeGenerate = res.body.code;
+  newUser = { ...newUser, code: codeGenerate };
+  const res2 = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+
+  codeGenerate2 = res2.body.code;
+});
+
+describe('[2]: 👤 Usuários', () => {
+  /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
+
+  it('[doc]: ✅ Cadastrar um usuário', async () => {
+    /* doc:
+     Cadastra um usuário que pode fazer e gerenciar posts no blog
+     */
+
+    const response = await request.post('/user').send(newUser);
 
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toMatchObject({
-      username: 'code test'
-    });
+    expect(response.body).toEqual({ username: 'lucia santos teste' });
   });
 
-  it('Should return 409 when trying to register a user that already exists', async () => {
+  it('[doc]: 🚫 Impede o cadastro de um usuário que já existe', async () => {
     const response = await request.post('/user').send({
-      code: 'code invalid',
-      username: 'other code',
-      password: 'other password'
+      code: codeGenerate2,
+      username: 'lucia santos teste',
+      password: '1234abc',
     });
 
+    expect(response.body).toEqual({ error: 'Username is already registered' });
     expect(response.statusCode).toEqual(409);
-    expect(response.body).toMatchObject({ error: 'Username is already registered' });
   });
 
-  it('Must log into the system and get a token', async () => {
-    // doc.description: "This is other docs"
+  it('✅ setup - Deve fazer login no sistema e obter um token', async () => {
     const response = await request.post('/auth').send({
-      username: 'new user',
-      password: 'new password'
+      username: 'lucia santos teste',
+      password: '1234abc',
     });
 
+    // @ts-ignore
+    token = { authorization: `Bearer ${response.body.token}` };
+  });
+
+  it('[doc]: ✅ Obter a si mesmo', async () => {
+    /* Esse endpoint serve para informações como quem está logado, etc. */
+    const response = await request.get(`/user`).set(token);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({ username: 'lucia santos teste' });
+  });
+
+  it('[doc]: ✅ atualiza dados de si mesmo', async () => {
+    /* doc:  Isso é útil para alterar dados pessoais, etc.
+
+    > red # Implementação pouco usada
+    > Atualmente essa funcionalidade não é usada no blog dicas de valorant
+
+    */
+    const response = await request.put(`/user`).set(token).send({
+      username: 'julia',
+      password: 'abc987',
+    });
+
+    expect(response.body).toEqual({ username: 'lucia santos teste' });
     expect(response.statusCode).toEqual(200);
   });
 
-  it('Should return 404 for an unregistered user trying to log into the systems', async () => {
-   // doc.description: "This is other doc"
-   const response = await request.post('/auth').send({
-     username: "user404",
-     password: "user404"
-    });
-
-    expect(response.statusCode).toEqual(404);
-  });
-
-  it('Should return 403 for a user with an invalid password trying to log into the systems', async () => {
-   // doc.description: "This is documentation"
-   const userId = 192
-   const anyParam = 'sempre'
-
-   const response = await request.post(`/auth/${userId}?dataId=${anyParam}`)
-    .send({ username: 'fake username', password: "fake password" })
-    .set({Authorization: "Bearer 123"});
-
-   expect(response.statusCode).toEqual(403);
-   expect(response.body).toEqual({ message: "This password is invalid!"});
-  });
-
-  it('Should prevent a user with invalid token from getting the users', async () => {
+  it('[doc]: 🚫 impede de obter usuário sem token', async () => {
     const response = await request.get(`/user`);
 
+    expect(response.body).toEqual({});
     expect(response.statusCode).toEqual(403);
   });
 
-  it('Must Get a User', async () => {
-    const response = await request.get(`/user`).set('Bearer');
-
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual({ username: 'abc' });
-  });
-
-  it('Should prevent a user with invalid token from Editing a User', async () => {
+  it('[doc]: 🚫 impede edição de usuário sem token', async () => {
     const response = await request.put(`/user`).send({
-      username: 'cde',
-      password: '456',
+      username: 'testeQualquerCoisa',
+      password: 'usuarioNotExists',
     });
 
+    expect(response.body).toEqual({});
     expect(response.statusCode).toEqual(403);
   });
 
-  it('Must Edit a User', async () => {
-    const response = await request.put(`/user`).set('Bearer').send({
-      username: 'abc',
-      password: '123',
-    });
-
-    expect(response.body).toEqual({ username: 'testSystemAfk37812-++aks22' });
-    expect(response.statusCode).toEqual(200);
-  });
-
-  it('Should prevent a user with invalid token from Deleting a user', async () => {
+  it('[doc]: 🚫 impede usuário sem token de deletar', async () => {
     const response = await request.delete(`/user`);
 
+    expect(response.body).toEqual({});
     expect(response.statusCode).toEqual(403);
   });
 
-  it('Must Delete a User', async () => {
-    const response = await request.delete(`/user`).set('Bearer');
+  it('[doc]: ⚠️ deletar a si mesmo', async () => {
+    /* doc: Isso remove a conta do próprio usuário */
+    const response = await request.delete(`/user`).set(token);
 
+    expect(response.body).toEqual({});
     expect(response.statusCode).toEqual(200);
   });
 });
