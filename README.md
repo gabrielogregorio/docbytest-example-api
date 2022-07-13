@@ -21,3 +21,16 @@
 
 [https://github.com/gabrielogregorio/docbytest](https://github.com/gabrielogregorio/docbytest)
 
+### Install packages
+```bash
+npm install
+```
+
+### Run API
+```bash
+npm run dev
+```
+
+### View results
+
+Access [http://127.0.0.1:3333/docs/](http://127.0.0.1:3333/docs/)
