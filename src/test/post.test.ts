@@ -89,7 +89,7 @@ afterAll(async () => {
 });
 
 describe('📔 Posts', () => {
-  it('[doc] - ✅ Cria um post', async () => {
+  it('[doc] - Cria um post', async () => {
     const res = await request.post('/post').set(token).send(post);
 
     expect(res.statusCode).toEqual(200);
@@ -135,7 +135,7 @@ describe('📔 Posts', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  it('[doc] - ✅Edita um post', async () => {
+  it('[doc] - Edita um post', async () => {
     const res = await request.put(`/post/${postId}`).set(token).send(postEdited);
     expect(res.statusCode).toEqual(200);
 
@@ -167,7 +167,7 @@ describe('📔 Posts', () => {
     });
   });
 
-  it('✅ Deve Obter um post Editado', async () => {
+  it('Deve Obter um post Editado', async () => {
     const res = await request.get(`/post/${postId}`).set(token);
 
     const data = {
@@ -199,7 +199,7 @@ describe('📔 Posts', () => {
     });
   });
 
-  it('[doc] - ✅ Retorna todos posts', async () => {
+  it('[doc] - Retorna todos posts', async () => {
     const res = await request.get(`/posts`);
     const data = {
       body: {
@@ -242,7 +242,7 @@ describe('📔 Posts', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('[doc] - ⚠️ Deleta um post', async () => {
+  it('[doc] - Deleta um post', async () => {
     const res = await request.delete(`/post/${postId}`).set(token);
 
     expect(res.statusCode).toEqual(200);

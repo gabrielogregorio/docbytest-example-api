@@ -33,14 +33,14 @@ beforeAll(async () => {
 describe('[1] 🔐 Autenticação', () => {
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
-  it('✅ Cadastrar um usuário', async () => {
+  it('Cadastrar um usuário', async () => {
     const response = await request.post('/user').send(newUser);
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({ username: 'teste.mariana' });
   });
 
-  it('[doc]: ✅ realiza login e obtém um token jwt', async () => {
+  it('[doc]: realiza login e obtém um token jwt', async () => {
     const response = await request.post('/auth').send({
       username: 'teste.mariana',
       password: 'teste.password',
@@ -85,7 +85,7 @@ describe('[1] 🔐 Autenticação', () => {
     expect(response.statusCode).toEqual(403);
   });
 
-  it('[doc]: ⚠️ deletar a própria conta', async () => {
+  it('[doc]: deletar a própria conta', async () => {
     const response = await request.delete(`/user`).set(token);
 
     expect(response.body).toEqual({});

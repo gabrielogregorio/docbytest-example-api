@@ -43,7 +43,7 @@ afterAll(async () => {
 });
 
 describe('🙋 Sugestões', () => {
-  test('[doc]: ✅ Enviar uma sugestão', async () => {
+  test('[doc]: Enviar uma sugestão', async () => {
     const res = await request.post('/suggestion').send({
       post_id: '6158689924fd4f9e1c587851',
       email: 'gab@gab.com',
@@ -97,7 +97,7 @@ describe('🙋 Sugestões', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  test('[doc]: ✅ Retorna sugestões', async () => {
+  test('[doc]: Retorna sugestões', async () => {
     const res = await request.get('/suggestions').set(token);
 
     const data = {
@@ -130,7 +130,7 @@ describe('🙋 Sugestões', () => {
     expect(res.statusCode).toEqual(403);
   });
 
-  test('[doc]: ✅ Altera o status para aceito', async () => {
+  test('[doc]: Altera o status para aceito', async () => {
     suggestionId = sugestion._id;
     const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'accepted' });
 
@@ -163,7 +163,7 @@ describe('🙋 Sugestões', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  test('[doc]: ✅ Altera o status para rejeitado', async () => {
+  test('[doc]: Altera o status para rejeitado', async () => {
     suggestionId = sugestion._id;
     const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'rejected' });
 
@@ -211,7 +211,7 @@ describe('🙋 Sugestões', () => {
     expect(res.body).toEqual({ error: 'Status para a sugestão inválido!' });
   });
 
-  test('[doc]: ⚠️ Deleta uma sugestão', async () => {
+  test('[doc]: Deleta uma sugestão', async () => {
     suggestionId = sugestion._id;
     const res = await request.delete(`/suggestion/${suggestionId}`).set(token);
 

@@ -4,7 +4,7 @@ Está **documentação contém toda a parte** técnica relacionada a API do blog
 
 Está documentação se destina a testarmos a biblioteca docbytest e não damos suporte e nem apoiamos o uso da api do Valorant tips, atualmente ela é publica, mas é alterada de acordo com as necessidades do blog, sem aviso prévio e sem suporte ok!
 
-> # 💡 O que é o docbytest
+> orange # 💡 O que é o docbytest
 > O [docbytest](https://github.com/gabrielogregorio/docbytest) é o projeto usado para gerar está documentação a partir de testes, basicamente você escreve um teste e 'magicamente' surge uma documentação de acordo com padrões estabelecidos pela docbytest.
 
 -------

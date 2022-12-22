@@ -13,7 +13,7 @@ afterAll(async () => {
 let views = 0;
 
 describe('👀 Visualizações', () => {
-  it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
+  it('[doc]: Retorna quantidade de visualizações', async () => {
     /* Retorna quantos views a API recebeu */
     const res = await request.get('/views');
     expect(res.body.countAll).toBeDefined();
@@ -32,14 +32,14 @@ describe('👀 Visualizações', () => {
     views = res.body.countAll;
   });
 
-  it('[doc]: ✅ Cria nova visualização', async () => {
+  it('[doc]: Cria nova visualização', async () => {
     /* doc: Essa rota registra a quantidade de visualizações que o site teve, não substituindo claro ferramentas de analytics */
     const res = await request.post('/views').send({});
     expect(res.body).toEqual({ msg: 'ok' });
     expect(res.statusCode).toEqual(200);
   });
 
-  it('✅ Retorna visualizações + 1', async () => {
+  it('Retorna visualizações + 1', async () => {
     const res = await request.get('/views');
     expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     expect(res.body.countAll).toEqual(views + 1);

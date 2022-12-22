@@ -23,3 +23,14 @@ Um token JWT será retornado, com o id do usuário, use-os para conseguir acesso
 > red # 🚧 Atenção!
 > Você precisa de entrar em contado com os [desenvolvedores](https://github.com/gabrielogregorio) informando que deseja ter **acesso blog**, e use com saberia esse acesso!
 
+
+----
+
+> Sem cor, uma linha!
+
+
+-----
+
+> sem cor, duas linhas
+> Você precisa de entrar em contado com os [desenvolvedores](https://github.com/gabrielogregorio) informando que deseja ter **acesso blog**, e use com saberia esse acesso!
+

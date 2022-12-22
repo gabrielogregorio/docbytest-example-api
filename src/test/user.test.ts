@@ -36,7 +36,7 @@ beforeAll(async () => {
 describe('[2]: 👤 Usuários', () => {
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
-  it('[doc]: ✅ Cadastrar um usuário', async () => {
+  it('[doc]: Cadastrar um usuário', async () => {
     /* doc:
      Cadastra um usuário que pode fazer e gerenciar posts no blog
      */
@@ -58,7 +58,7 @@ describe('[2]: 👤 Usuários', () => {
     expect(response.statusCode).toEqual(409);
   });
 
-  it('✅ setup - Deve fazer login no sistema e obter um token', async () => {
+  it('setup - Deve fazer login no sistema e obter um token', async () => {
     const response = await request.post('/auth').send({
       username: 'lucia santos teste',
       password: '1234abc',
@@ -68,7 +68,7 @@ describe('[2]: 👤 Usuários', () => {
     token = { authorization: `Bearer ${response.body.token}` };
   });
 
-  it('[doc]: ✅ Obter a si mesmo', async () => {
+  it('[doc]: Obter a si mesmo', async () => {
     /* Esse endpoint serve para informações como quem está logado, etc. */
     const response = await request.get(`/user`).set(token);
 
@@ -76,11 +76,11 @@ describe('[2]: 👤 Usuários', () => {
     expect(response.body).toEqual({ username: 'lucia santos teste' });
   });
 
-  it('[doc]: ✅ atualiza dados de si mesmo', async () => {
+  it('[doc]: atualiza dados de si mesmo', async () => {
     /* doc:  Isso é útil para alterar dados pessoais, etc.
 
-    > red # Implementação pouco usada
-    > Atualmente essa funcionalidade não é usada no blog dicas de valorant
+> red # Implementação pouco usada
+> Atualmente essa funcionalidade não é usada no blog dicas de valorant
 
     */
     const response = await request.put(`/user`).set(token).send({
@@ -116,7 +116,7 @@ describe('[2]: 👤 Usuários', () => {
     expect(response.statusCode).toEqual(403);
   });
 
-  it('[doc]: ⚠️ deletar a si mesmo', async () => {
+  it('[doc]: deletar a si mesmo', async () => {
     /* doc: Isso remove a conta do próprio usuário */
     const response = await request.delete(`/user`).set(token);
 

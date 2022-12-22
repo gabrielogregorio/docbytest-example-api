@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "docbytest": "1.1.0",
-    "docbytest-ui": "1.0.1",
+    "docbytest": "3.0.0",
+    "docbytest-ui": "3.0.6",
     "dotenv": "^16.0.1",
     "express": "^4.17.3"
   },
